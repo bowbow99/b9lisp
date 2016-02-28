@@ -28,6 +28,4 @@
 #define UNUSED(X)                        \
   (void)(X)
 
-
-
 /// util.h ends here.
