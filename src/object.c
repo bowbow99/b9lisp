@@ -28,9 +28,4 @@ void print_object(Lobject *obj, FILE *out)
 }
 
 
-
-
-
-
-
 /// object.c ends here.

@@ -72,7 +72,7 @@ typedef enum Ltag {
 Ltype Ltype_of(Lobject *obj);
 void print_object(Lobject *obj, FILE *out);
 
-
+Lobject *read_object(FILE *in);
 void init_b9lisp(void);
 
 

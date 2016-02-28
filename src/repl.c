@@ -6,11 +6,24 @@
 #include "util.h"
 
 
-int main(int argc, char *argv[])
+void run_repl(void)
 {
-  UNUSED(argc);
-  UNUSED(argv);
+  Lobject *x;
+  for (;;) {
+    // read
+    printf("b9lisp> ");
+    x = read_object(stdin);
+    if ( !x ) break;
+    // eval
+    
+    // print
+    print_object(x, stdout);
+    printf("\n");
+  }
+}
 
+void test_fixnum(void)
+{
 #define test(EXPR)    \
   if ( !(EXPR) )      \
     die("Test failed: %s", #EXPR)
@@ -33,6 +46,15 @@ int main(int argc, char *argv[])
   dump(a);
   dump(b);
   dump(c);
+}
+
+
+int main(int argc, char *argv[])
+{
+  UNUSED(argc);
+  UNUSED(argv);
+
+  run_repl();
 
   return 0;
 }
