@@ -28,4 +28,10 @@
 #define UNUSED(X)                        \
   (void)(X)
 
+#ifdef _MSC_VER
+   // MSVC complains it is deprecated or something
+#  define strdup _strdup
+#endif
+
+
 /// util.h ends here.

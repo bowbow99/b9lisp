@@ -50,7 +50,7 @@ Lobject *read_atom(FILE *in, int32_t c)
     return make_fixnum(atol(buf));
   }
   else {
-    die("Symbol not implemented.\n;; buf = \"%s\"\n", buf);
+    return intern(buf);
   }
 }
 

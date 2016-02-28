@@ -13,6 +13,8 @@ Ltype Ltype_of(Lobject *obj)
     return Tfixnum;
   case TAG_CONS:
     return Tcons;
+  case TAG_CHARACTER:
+    return Tcharacter;
   default:
     return LOBJ(obj)->type;
   }
@@ -21,8 +23,13 @@ Ltype Ltype_of(Lobject *obj)
 void print_object(Lobject *obj, FILE *out)
 {
   switch ( Ltype_of(obj) ) {
-  case Tfixnum:    print_fixnum(obj, out); break;
-  case Tcons:      print_list(obj, out); break;
+#define type(NAME,PRINTER)   \
+  case NAME: PRINTER(obj, out); break
+    type(Tfixnum, print_fixnum);
+    type(Tcons, print_list);
+    type(Tcharacter, print_character);
+    type(Tsymbol, print_symbol);
+#undef type
   default:
     die("Printer not implemented: type = %d",
         Ltype_of(obj));
@@ -34,6 +41,8 @@ void init_b9lisp(void)
   Qnil = cons(NULL, NULL);
   set_car(Qnil, Qnil);
   set_cdr(Qnil, Qnil);
+
+  init_symtab();
 }
 
 /// object.c ends here.

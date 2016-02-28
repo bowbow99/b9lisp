@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+
 #include "util.h"
 
 
@@ -57,12 +58,12 @@ struct Lobject {
 //// Pointer Tagging
 
 typedef enum Ltag {
-  TAG_000,  // 000:
+  TAG_OBJECT,       // 000: Object
   TAG_EVEN_FIXNUM,  // 001: Fixnum (even)
   TAG_CONS,         // 010: Cons cell
-  TAG_011,  // 011:
+  TAG_CHARACTER,    // 011: Character
   TAG_100,  // 100:
-  TAG_ODD_FIXNUM,  // 101: Fixnum (odd)
+  TAG_ODD_FIXNUM,   // 101: Fixnum (odd)
   TAG_110,  // 110:
   TAG_111,  // 111:
 } Ltag;
@@ -88,10 +89,10 @@ Lobject *read_object(FILE *in);
 void init_b9lisp(void);
 
 Lobject *Qnil;
+Lobject *symtab;
 
 
 //// Fixnum
-
 Lobject *make_fixnum(int64_t n);
 void print_fixnum(Lobject *n, FILE *out);
 
@@ -102,7 +103,6 @@ void print_character(Lobject *c, FILE *out);
 
 
 //// Cons/List
-
 Lobject *cons(Lobject *car, Lobject *cdr);
 
 Lobject *car(Lobject *cons);
@@ -111,5 +111,17 @@ Lobject *set_car(Lobject *cons, Lobject *value);
 Lobject *set_cdr(Lobject *cons, Lobject *value);
 
 void print_list(Lobject *list, FILE *out);
+
+
+//// Symbol
+Lobject *intern(char name[]);
+
+void init_symtab(void);
+void print_symbol(Lobject *sym, FILE *out);
+
+
+//// Character
+Lobject *make_character(char c);
+void print_character(Lobject *c, FILE *out);
 
 /// lisp.h ends here.
