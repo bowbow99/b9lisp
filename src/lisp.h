@@ -1,6 +1,8 @@
 /// -*- Mode: C -*-
 ///
 /// lisp.h
+
+//// Code
 #pragma once
 
 #include <stdlib.h>
@@ -9,6 +11,7 @@
 #include <stdbool.h>
 #include "util.h"
 
+
 //// Memory stuff
 
 #define Lalloc(SIZE)                    \
@@ -17,6 +20,7 @@
 #define check_alloc(X)                  \
   if ( (X) == NULL )                    \
     die("Could not allocate memory for %s", #X)
+
 
 //// Lobject
 
@@ -49,7 +53,6 @@ struct Lobject {
   Lobject *datum[1];
 };
 
-
 
 //// Pointer Tagging
 
@@ -75,7 +78,6 @@ typedef enum Ltag {
   if ( Ltype_of(OBJ) != (TYPE) )        \
     die("Object %s is not of type %s.\n", #OBJ, #TYPE)
 
-
 
 //// Lobject C APIs
 
@@ -84,6 +86,8 @@ void print_object(Lobject *obj, FILE *out);
 
 Lobject *read_object(FILE *in);
 void init_b9lisp(void);
+
+Lobject *Qnil;
 
 
 //// Fixnum
@@ -107,10 +111,5 @@ Lobject *set_car(Lobject *cons, Lobject *value);
 Lobject *set_cdr(Lobject *cons, Lobject *value);
 
 void print_list(Lobject *list, FILE *out);
-
-Lobject *Qnil;
-
-
-
 
 /// lisp.h ends here.
