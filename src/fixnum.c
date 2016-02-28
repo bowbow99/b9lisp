@@ -1,12 +1,13 @@
 /// -*- Mode: C -*-
 ///
 /// fixnum.c
+
+//// Code:
 #include "lisp.h"
 #include "util.h"
 
 #include <stdbool.h>
 #include <inttypes.h>
-
 
 #define TAG_FIXNUM    0x01
 
@@ -26,10 +27,5 @@ void print_fixnum(Lobject *n, FILE *out)
 {
   fprintf(out, "%" PRId64 "", fixnum_value(n));
 }
-
-
-
-
-
 
 /// fixnum.c ends here.

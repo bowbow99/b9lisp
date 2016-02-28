@@ -1,9 +1,9 @@
 /// -*- Mode: C -*-
 ///
 /// cons.c
-#include "lisp.h"
 
-#include "util.h"
+//// Code:
+#include "lisp.h"
 
 typedef struct Lcons Lcons;
 struct Lcons {
@@ -72,11 +72,5 @@ void print_list(Lobject *list, FILE *out)
 CLOSE:
   fprintf(out, ")");
 }
-
-
-
-
-
-
 
 /// cons.c ends here.
