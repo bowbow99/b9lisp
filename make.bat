@@ -1,5 +1,7 @@
 @echo off
 
+set PROJECT_FILE=b9lisp.vcxproj
+
 if "%1" == "clean" (
   call :CLEAN
   goto END
@@ -20,10 +22,10 @@ premake5 vs2013
 exit /b
 
 :BUILD
-if not exist "build/b9lisp.vcxproj" (
+if not exist %PROJECT_FILE% (
   call :PREBUILD
 )
-msbuild /nologo build\b9lisp.vcxproj
+msbuild /nologo %PROJECT_FILE%
 exit /b
 
 :RUN
@@ -34,9 +36,8 @@ bin\b9lisp.exe
 exit /b
 
 :CLEAN
-if exist "build" (
-  msbuild /nologo /target:Clean build\b9lisp.vcxproj
-  rmdir /s /q build
+if exist %PROJECT_FILE% (
+  msbuild /nologo /target:Clean %PROJECT_FILE%
 )
 if exist "bin" (
   rmdir /s /q bin
