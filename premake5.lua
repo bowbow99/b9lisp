@@ -2,7 +2,6 @@
 
 solution "b9lisp"
     configurations { "Debug", "Release" }
-    location "build"
     architecture "x64"
 
 project "b9lisp"
