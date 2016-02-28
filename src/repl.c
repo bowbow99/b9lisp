@@ -48,11 +48,12 @@ void test_fixnum(void)
   dump(c);
 }
 
-
 int main(int argc, char *argv[])
 {
   UNUSED(argc);
   UNUSED(argv);
+
+  init_b9lisp();
 
   run_repl();
 

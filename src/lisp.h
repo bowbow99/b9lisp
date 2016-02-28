@@ -6,13 +6,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
-
+#include <stdbool.h>
+#include "util.h"
 
 //// Memory stuff
 
 #define Lalloc(SIZE)                    \
   malloc( sizeof(void *) * (SIZE) )
 
+#define check_alloc(X)                  \
+  if ( (X) == NULL )                    \
+    die("Could not allocate memory for %s", #X)
 
 //// Lobject
 
@@ -52,7 +56,7 @@ struct Lobject {
 typedef enum Ltag {
   TAG_000,  // 000:
   TAG_EVEN_FIXNUM,  // 001: Fixnum (even)
-  TAG_010,  // 010:
+  TAG_CONS,         // 010: Cons cell
   TAG_011,  // 011:
   TAG_100,  // 100:
   TAG_ODD_FIXNUM,  // 101: Fixnum (odd)
@@ -62,8 +66,14 @@ typedef enum Ltag {
 
 #define TAG_BITS    0x07  // ...111
 #define iPTR(X)     ((uintptr_t)(X))
-#define Lobj(X)     ( (Lobject *)(iPTR(X) & ~TAG_BITS) )
+#define ptr(X)      ( iPTR(X) & ~TAG_BITS )
 #define Ltag_of(X)  ( (Ltag)(iPTR(X) & TAG_BITS) )
+
+#define LOBJ(X)     ( (Lobject *)(ptr(X)) )
+
+#define check_type(OBJ, TYPE)           \
+  if ( Ltype_of(OBJ) != (TYPE) )        \
+    die("Object %s is not of type %s.\n", #OBJ, #TYPE)
 
 
 
@@ -84,14 +94,21 @@ void print_fixnum(Lobject *n, FILE *out);
 
 //// Character
 Lobject *make_character(char c);
-void print_Tcharacter(Lobject *c, FILE *out);
+void print_character(Lobject *c, FILE *out);
 
 
 //// Cons/List
 
+Lobject *cons(Lobject *car, Lobject *cdr);
 
+Lobject *car(Lobject *cons);
+Lobject *cdr(Lobject *cons);
+Lobject *set_car(Lobject *cons, Lobject *value);
+Lobject *set_cdr(Lobject *cons, Lobject *value);
 
+void print_list(Lobject *list, FILE *out);
 
+Lobject *Qnil;
 
 
 

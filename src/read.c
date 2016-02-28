@@ -8,14 +8,13 @@
 #include <stdbool.h>
 #include <string.h>
 
-
-void skip_whitespaces(FILE *in)
+int32_t next_char(FILE *in)
 {
   int32_t c = fgetc(in);
   while ( isspace(c) ) {
     c = fgetc(in);
   }
-  ungetc(c, in);
+  return c;
 }
 
 
@@ -56,19 +55,54 @@ Lobject *read_atom(FILE *in, int32_t c)
   }
 }
 
+Lobject *read_list(FILE *in)
+{
+  Lobject *head, *tail, *tmp;
+  int32_t c;
 
+  c = next_char(in);
+  if ( c == ')' )
+    return Qnil;
+
+  ungetc(c, in);
+  tmp = read_object(in);
+  head = cons(tmp, Qnil);
+  tail = head;
+
+  while ( (c = next_char(in)) != EOF ) {
+    switch ( c ) {
+    case ')':
+      return head;
+    case '.':
+      tmp = read_object(in);
+      if ( tmp == NULL )
+        die("list terminated unexpectedly.\n");
+      set_cdr(tail, tmp);
+      next_char(in);  // get rid of closing paren.
+      return head;
+    default:
+      ungetc(c, in);
+      tmp = read_object(in);
+      if ( tmp == NULL )
+        die("list terminated unexpectedly.\n");
+      set_cdr(tail, cons(tmp, Qnil));
+      tail = cdr(tail);
+    }
+  }
+  die("list terminated unexpectedly.\n");
+}
 
 
 
 Lobject *read_object(FILE *in)
 {
-  skip_whitespaces(in);
-
-  int32_t c = fgetc(in);
+  int32_t c = next_char(in);
 
   switch ( c ) {
   case EOF:
     return NULL;
+  case '(':
+    return read_list(in);
   default:
     return read_atom(in, c);
   }
