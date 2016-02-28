@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 #include "util.h"
 
@@ -86,10 +87,13 @@ Ltype Ltype_of(Lobject *obj);
 void print_object(Lobject *obj, FILE *out);
 
 Lobject *read_object(FILE *in);
+Lobject *evaluate(Lobject *expr, Lobject *env);
+
 void init_b9lisp(void);
 
 Lobject *Qnil;
 Lobject *symtab;
+Lobject *global_env;
 
 
 //// Fixnum
@@ -115,6 +119,7 @@ void print_list(Lobject *list, FILE *out);
 
 //// Symbol
 Lobject *intern(char name[]);
+char *symbol_name(Lobject *sym);
 
 void init_symtab(void);
 void print_symbol(Lobject *sym, FILE *out);
@@ -123,5 +128,15 @@ void print_symbol(Lobject *sym, FILE *out);
 //// Character
 Lobject *make_character(char c);
 void print_character(Lobject *c, FILE *out);
+
+
+//// Environment
+Lobject *make_environment(Lobject *next);
+Lobject *lookup(Lobject *env, Lobject *sym);
+Lobject *bind(Lobject *env, Lobject *sym, Lobject *value);
+
+void print_environment(Lobject *env, FILE *out);
+void init_global_env();
+
 
 /// lisp.h ends here.

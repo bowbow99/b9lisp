@@ -29,6 +29,7 @@ void print_object(Lobject *obj, FILE *out)
     type(Tcons, print_list);
     type(Tcharacter, print_character);
     type(Tsymbol, print_symbol);
+    type(Tenvironment, print_environment);
 #undef type
   default:
     die("Printer not implemented: type = %d",
@@ -43,6 +44,7 @@ void init_b9lisp(void)
   set_cdr(Qnil, Qnil);
 
   init_symtab();
+  init_global_env();
 }
 
 /// object.c ends here.

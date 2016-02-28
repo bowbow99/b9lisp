@@ -14,7 +14,6 @@ struct Lsymbol {
 };
 
 #define LSYM(X)             ( (Lsymbol *)ptr(X) )
-#define symbol_name(X)      ( LSYM(X)->name )
 
 Lobject *make_symbol(char name[])
 {
@@ -26,6 +25,13 @@ Lobject *make_symbol(char name[])
 
   return (Lobject *)sym;
 }
+
+char *symbol_name(Lobject *sym)
+{
+  check_type(sym, Tsymbol);
+  return LSYM(sym)->name;
+}
+
 
 void init_symtab(void)
 {
@@ -56,12 +62,5 @@ void print_symbol(Lobject *sym, FILE *out)
 {
   fprintf(out, "%s", symbol_name(sym));
 }
-
-
-
-
-
-
-
 
 /// symbol.c ends here.

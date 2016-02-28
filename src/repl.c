@@ -14,7 +14,7 @@ void run_repl(void)
     x = read_object(stdin);
     if ( !x ) break;
     // eval
-    
+    x = evaluate(x, global_env);
     // print
     print_object(x, stdout);
     printf("\n");
