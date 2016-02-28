@@ -2,6 +2,7 @@
 ///
 /// object.c
 
+//// Code
 #include "lisp.h"
 
 Ltype Ltype_of(Lobject *obj)
@@ -34,6 +35,5 @@ void init_b9lisp(void)
   set_car(Qnil, Qnil);
   set_cdr(Qnil, Qnil);
 }
-
 
 /// object.c ends here.

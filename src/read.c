@@ -1,9 +1,10 @@
 /// -*- Mode: C -*-
 ///
 /// read.c
+
+//// Code
 #include "lisp.h"
 
-#include "util.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
@@ -16,8 +17,6 @@ int32_t next_char(FILE *in)
   }
   return c;
 }
-
-
 
 static const char extra_symbol_chars[] = "!@$%^&*/?-_=+~<>";
 
@@ -92,8 +91,6 @@ Lobject *read_list(FILE *in)
   die("list terminated unexpectedly.\n");
 }
 
-
-
 Lobject *read_object(FILE *in)
 {
   int32_t c = next_char(in);
@@ -107,7 +104,5 @@ Lobject *read_object(FILE *in)
     return read_atom(in, c);
   }
 }
-
-
 
 /// read.c ends here.
