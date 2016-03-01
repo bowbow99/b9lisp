@@ -62,12 +62,16 @@ typedef enum Ltag {
   TAG_OBJECT,       // 000: Object
   TAG_EVEN_FIXNUM,  // 001: Fixnum (even)
   TAG_CONS,         // 010: Cons cell
-  TAG_CHARACTER,    // 011: Character
+  TAG_VALUE,        // 011: Character, Syntax
   TAG_100,  // 100:
   TAG_ODD_FIXNUM,   // 101: Fixnum (odd)
   TAG_110,  // 110:
   TAG_111,  // 111:
 } Ltag;
+
+#define TAG_CHARACTER    ( (0 << 3) | TAG_VALUE )
+#define TAG_SYNTAX       ( (1 << 3) | TAG_VALUE )
+
 
 #define TAG_BITS    0x07  // ...111
 #define iPTR(X)     ((uintptr_t)(X))
@@ -137,6 +141,19 @@ Lobject *bind(Lobject *env, Lobject *sym, Lobject *value);
 
 void print_environment(Lobject *env, FILE *out);
 void init_global_env();
+
+//// Syntax
+
+enum syntax_id {
+#define DEFSYNTAX(NAME)    S##NAME,
+#  include "syntax.def"
+  SYNTAX_ID_MAX,
+#undef DEFSYNTAX
+};
+
+void init_syntax(void);
+void print_syntax(Lobject *syn, FILE *out);
+Lobject *apply_syntax(Lobject *syn, Lobject *argforms, Lobject *env);
 
 
 /// lisp.h ends here.

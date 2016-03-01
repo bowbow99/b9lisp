@@ -1,0 +1,8 @@
+/// -*- Mode: C -*-
+
+DEFSYNTAX(quote)
+DEFSYNTAX(lambda)
+DEFSYNTAX(if)
+DEFSYNTAX(begin)
+DEFSYNTAX(define)
+DEFSYNTAX(let)

@@ -13,8 +13,11 @@ Ltype Ltype_of(Lobject *obj)
     return Tfixnum;
   case TAG_CONS:
     return Tcons;
-  case TAG_CHARACTER:
-    return Tcharacter;
+  case TAG_VALUE:
+    switch ( iPTR(obj) & 0x0f ) {
+    case TAG_CHARACTER: return Tcharacter;
+    case TAG_SYNTAX:    return Tsyntax;
+    }
   default:
     return LOBJ(obj)->type;
   }
@@ -30,6 +33,7 @@ void print_object(Lobject *obj, FILE *out)
     type(Tcharacter, print_character);
     type(Tsymbol, print_symbol);
     type(Tenvironment, print_environment);
+    type(Tsyntax, print_syntax);
 #undef type
   default:
     die("Printer not implemented: type = %d",
@@ -45,6 +49,7 @@ void init_b9lisp(void)
 
   init_symtab();
   init_global_env();
+  init_syntax();
 }
 
 /// object.c ends here.
