@@ -63,7 +63,20 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
     bind(global_env, sym, value);
     return value;
   }
-  case Slet:
+  case Slet: {
+    Lobject *nenv = make_environment(env);
+    check_type(car(args), Tcons);
+    dolist(bin, car(args)) {
+      check_type(bin, Tcons);
+      check_type(xfirst(bin), Tsymbol);
+      bind(nenv, xfirst(bin), evaluate(xsecond(bin), env));
+    }
+    Lobject *ret = Qnil;
+    dolist(expr, cdr(args)) {
+      ret = evaluate(expr, nenv);
+    }
+    return ret;
+  }
   default:
     die("Unknown syntax: %p\n", op);
   }
