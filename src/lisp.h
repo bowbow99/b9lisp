@@ -120,6 +120,11 @@ Lobject *set_cdr(Lobject *cons, Lobject *value);
 
 void print_list(Lobject *list, FILE *out);
 
+#define xfirst(LIST)    car(LIST)
+#define xsecond(LIST)   car(cdr(LIST))
+#define xthird(LIST)    car(cdr(cdr(LIST)))
+#define xfourth(LIST)   car(cdr(cdr(cdr(LIST))))
+
 
 //// Symbol
 Lobject *intern(char name[]);

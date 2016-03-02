@@ -40,7 +40,7 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
 
   switch ( syntax_id(op) ) {
   case Squote:
-    return car(args);
+    return xfirst(args);
   case Slambda:
   case Sif:
   case Sbegin: {
@@ -51,8 +51,8 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
     return value;
   }
   case Sdefine: {
-    Lobject *sym = car(args);
-    Lobject *value = evaluate(car(cdr(args)), env);
+    Lobject *sym = xfirst(args);
+    Lobject *value = evaluate(xsecond(args), env);
     bind(global_env, sym, value);
     return value;
   }
