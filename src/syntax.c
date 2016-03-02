@@ -42,7 +42,13 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
   case Squote:
     return xfirst(args);
   case Slambda:
-  case Sif:
+  case Sif: {
+    Lobject *cond = evaluate(xfirst(args), env);
+    if ( cond == Qnil )
+      return evaluate(xthird(args), env);
+    else
+      return evaluate(xsecond(args), env);
+  }
   case Sbegin: {
     Lobject *value = Qnil;
     for ( ; args != Qnil; args = cdr(args) ) {
