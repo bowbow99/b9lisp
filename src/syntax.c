@@ -39,8 +39,9 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
   check_type(env, Tenvironment);
 
   switch ( syntax_id(op) ) {
-  case Squote:
+  case Squote: {
     return xfirst(args);
+  }
   case Slambda:
   case Sif: {
     Lobject *cond = evaluate(xfirst(args), env);
