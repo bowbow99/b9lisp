@@ -125,6 +125,11 @@ void print_list(Lobject *list, FILE *out);
 #define xthird(LIST)    car(cdr(cdr(LIST)))
 #define xfourth(LIST)   car(cdr(cdr(cdr(LIST))))
 
+#define dolist(VAR, LIST)                              \
+  for ( Lobject *__REST = (LIST), *VAR = car(LIST);    \
+        __REST != Qnil;                                \
+        __REST = cdr(__REST), VAR = car(__REST) )
+
 
 //// Symbol
 Lobject *intern(char name[]);
