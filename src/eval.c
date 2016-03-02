@@ -17,6 +17,9 @@ Lobject *evaluate(Lobject *expr, Lobject *env)
   }
 
   case Tcons: {
+    if ( expr == Qnil ) {
+      return Qnil;
+    }
     Lobject *op = evaluate(car(expr), env);
     switch ( Ltype_of(op) ) {
     case Tsyntax:
@@ -34,7 +37,5 @@ Lobject *evaluate(Lobject *expr, Lobject *env)
     return expr;
   }
 }
-
-
 
 /// eval.c ends here.
