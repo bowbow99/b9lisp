@@ -5,6 +5,18 @@
 //// Code:
 #include "lisp.h"
 
+Lobject *evaluate_list(Lobject *exprs, Lobject *env)
+{
+  Lobject *head = cons(evaluate(car(exprs), env), Qnil);
+  Lobject *tail = head;
+  dolist( expr, cdr(exprs) ) {
+    Lobject *x = cons(evaluate(expr, env), Qnil);
+    set_cdr(tail, x);
+    tail = x;
+  }
+  return head;
+}
+
 Lobject *evaluate(Lobject *expr, Lobject *env)
 {
   switch ( Ltype_of(expr) ) {
@@ -27,7 +39,7 @@ Lobject *evaluate(Lobject *expr, Lobject *env)
     case Tfunction:
       die("Applying function is not implemented yet. Sorry.\n");
     case Tclosure:
-      die("Applying closure is not implemented yet. Sorry.\n");
+      return apply_closure(op, evaluate_list(cdr(expr), env));
     default:
       die("Invalid operator: type = %d\n", Ltype_of(op));
     }

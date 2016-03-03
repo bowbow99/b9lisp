@@ -42,7 +42,11 @@ Lobject *apply_syntax(Lobject *op, Lobject *args, Lobject *env)
   case Squote: {
     return xfirst(args);
   }
-  case Slambda:
+  case Slambda: {
+    check_type(car(args), Tcons);
+    check_type(cdr(args), Tcons);
+    return make_closure(car(args), cdr(args), env);
+  }
   case Sif: {
     Lobject *cond = evaluate(xfirst(args), env);
     if ( cond == Qnil )

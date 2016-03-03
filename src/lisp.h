@@ -47,7 +47,7 @@ enum Ltype {
 typedef int Ltype;
 
 #define Lobject_headers                 \
-  Ltype type : 4
+  Ltype type : 8
 
 typedef struct Lobject Lobject;
 struct Lobject {
@@ -151,6 +151,7 @@ Lobject *bind(Lobject *env, Lobject *sym, Lobject *value);
 
 void print_environment(Lobject *env, FILE *out);
 void init_global_env();
+
 
 //// Syntax
 
@@ -165,5 +166,11 @@ void init_syntax(void);
 void print_syntax(Lobject *syn, FILE *out);
 Lobject *apply_syntax(Lobject *syn, Lobject *argforms, Lobject *env);
 
+
+//// Closure
+
+Lobject *make_closure(Lobject *arglist, Lobject *body, Lobject *env);
+Lobject *apply_closure(Lobject *f, Lobject *args);
+void print_closure(Lobject *f, FILE *out);
 
 /// lisp.h ends here.

@@ -17,9 +17,13 @@ Ltype Ltype_of(Lobject *obj)
     switch ( iPTR(obj) & 0x0f ) {
     case TAG_CHARACTER: return Tcharacter;
     case TAG_SYNTAX:    return Tsyntax;
+    default:
+      die("Unknown type of immediate value.\n");
     }
-  default:
+  case TAG_OBJECT:
     return LOBJ(obj)->type;
+  default:
+    die("Unknown tag: %X\n", Ltag_of(obj));
   }
 }
 
@@ -34,6 +38,7 @@ void print_object(Lobject *obj, FILE *out)
     type(Tsymbol, print_symbol);
     type(Tenvironment, print_environment);
     type(Tsyntax, print_syntax);
+    type(Tclosure, print_closure);
 #undef type
   default:
     die("Printer not implemented: type = %d",
